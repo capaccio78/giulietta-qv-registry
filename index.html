@@ -5,47 +5,132 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Giulietta QV Launch Edition — International Registry</title>
 <meta name="description" content="Registro indipendente degli esemplari Alfa Romeo Giulietta QV Launch Edition identificati.">
-<link rel="stylesheet" href="assets/style-v3.css?v=20260922-2348">
+<link rel="stylesheet" href="assets/style-v4.css?v=20260922-2358">
 </head>
 <body>
 <header class="site-header">
-  <a class="brand" href="#top" aria-label="Giulietta QV Registry">GIULIETTA <span>QV</span> REGISTRY</a>
-  <nav class="nav">
-    <a href="#registry">Registro</a>
-    <a href="#map-section">Mappa</a>
-    <a href="#contribute">Contribuisci</a>
-  </nav>
+  <div class="header-inner shell">
+    <a class="brand" href="#top" aria-label="Giulietta QV Registry">
+      <span class="brand-script">Giulietta QV</span>
+      <span class="brand-sub">International Registry</span>
+    </a>
+    <nav class="nav" aria-label="Navigazione principale">
+      <a href="#registry">Registro</a>
+      <a href="#map-section">Mappa</a>
+      <a href="#project">Progetto</a>
+      <a href="#contribute">Community</a>
+    </nav>
+    <div class="header-actions">
+      <a class="login-link" href="#contribute">Accedi</a>
+      <a class="header-btn" href="#contribute">Registrati</a>
+    </div>
+  </div>
 </header>
+
 <main id="top">
-<section class="hero"><div class="hero-inner">
-  <div class="eyebrow">INDEPENDENT ARCHIVAL PROJECT · 001—999</div>
-  <h1>GIULIETTA QV<br><span>LAUNCH EDITION</span></h1>
-  <p>Registro internazionale indipendente dedicato alla conservazione documentale degli esemplari identificati. Una vettura entra nel registro solo quando una fonte documenta esplicitamente il numero Launch Edition.</p>
-  <div class="actions"><a class="btn" href="#registry">Esplora il registro</a><a class="btn secondary" href="#contribute">Segnala una vettura</a></div>
-</div></section>
-<section class="stats" aria-label="Statistiche registro">
-  <div class="stat"><b>999</b><span>Esemplari prodotti</span></div>
-  <div class="stat"><b id="identified">15</b><span>Identificati</span></div>
-  <div class="stat"><b id="countries">—</b><span>Paesi documentati</span></div>
-  <div class="stat"><b>A–D</b><span>Livelli verifica</span></div>
+<section class="hero">
+  <div class="hero-inner shell">
+    <div class="hero-copy">
+      <div class="eyebrow">INDEPENDENT ARCHIVAL PROJECT · 001—999</div>
+      <h1>GIULIETTA QV <span>LAUNCH EDITION</span><small>INTERNATIONAL REGISTRY</small></h1>
+      <div class="tricolore" aria-hidden="true"><i></i><i></i><i></i></div>
+      <blockquote>“Un'edizione speciale.<br>Una passione senza confini.”</blockquote>
+      <p>Un archivio indipendente costruito dagli appassionati per documentare gli esemplari realmente identificati, con fonti pubbliche verificabili e contributi moderati.</p>
+      <div class="actions">
+        <a class="btn primary" href="#registry">Esplora il registro →</a>
+        <a class="btn secondary" href="#project">Scopri il progetto</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="badge-999"><b>999</b><span>ESEMPLARI</span><small>UNA STORIA UNICA</small></div>
+      <div class="car-poster">
+        <div class="poster-label">Launch Edition Registry</div>
+        <div class="car-art">
+          <span class="wheel wheel-a"></span>
+          <span class="wheel wheel-b"></span>
+        </div>
+        <div class="poster-footer"><span>Archivio indipendente</span><b>#001—999</b></div>
+      </div>
+    </div>
+  </div>
 </section>
-<section class="section" id="registry">
-  <div class="section-head"><div><div class="eyebrow">REGISTRO PUBBLICO</div><h2>Esemplari identificati</h2></div><p>Vengono mostrati solo i numeri per cui esiste una fonte pubblica esplicita.</p></div>
-  <div class="toolbar">
-    <label class="search"><span>Cerca</span><input id="q" inputmode="search" placeholder="Numero, città, paese, nickname…"></label>
-    <label><span>Verifica</span><select id="verify"><option value="">Tutti i livelli</option><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+
+<section class="stats-band">
+  <div class="stats shell">
+    <div class="stat"><span class="stat-icon">◆</span><div><b id="identified">15</b><small>vetture documentate</small></div></div>
+    <div class="stat"><span class="stat-icon">●</span><div><b>15</b><small>fonti pubbliche attive</small></div></div>
+    <div class="stat"><span class="stat-icon">◎</span><div><b id="countries">—</b><small>Paesi documentati</small></div></div>
+    <div class="stat"><span class="stat-icon">⌕</span><div><b>999</b><small>esemplari totali</small></div></div>
+  </div>
+</section>
+
+<section class="search-band">
+  <div class="search-inner shell">
+    <label class="searchbox">
+      <span class="search-icon">⌕</span>
+      <input id="q" inputmode="search" placeholder="Cerca una vettura (es. 119, Roma, Paesi Bassi)">
+    </label>
+    <label class="verify-select">
+      <select id="verify" aria-label="Livello di verifica">
+        <option value="">Tutti i livelli</option>
+        <option>A</option><option>B</option><option>C</option><option>D</option>
+      </select>
+    </label>
+    <a class="advanced-link" href="#registry">Ricerca avanzata</a>
+  </div>
+</section>
+
+<section class="feature-grid shell" id="project">
+  <article class="feature-card">
+    <div class="feature-art art-project"><span class="qv-mark">QV</span></div>
+    <div class="feature-body"><h3>Il progetto</h3><p>Un registro indipendente, creato da appassionati, per appassionati.</p><a href="#registry">Scopri di più →</a></div>
+  </article>
+  <article class="feature-card">
+    <div class="feature-art art-registry"><span>#001—999</span></div>
+    <div class="feature-body"><h3>Registro 001—999</h3><p>Solo le Giulietta QV Launch Edition per cui il numero è esplicitamente documentato.</p><a href="#registry">Esplora il registro →</a></div>
+  </article>
+  <article class="feature-card">
+    <div class="feature-art art-map"></div>
+    <div class="feature-body"><h3>Mappa interattiva</h3><p>Visualizza le località pubblicamente documentate per gli esemplari identificati.</p><a href="#map-section">Apri la mappa →</a></div>
+  </article>
+  <article class="feature-card">
+    <div class="feature-art art-owner"><span>♣</span></div>
+    <div class="feature-body"><h3>Sei un proprietario?</h3><p>Rivendica, segnala o correggi una vettura tramite il flusso di moderazione.</p><a href="#contribute">Partecipa →</a></div>
+  </article>
+</section>
+
+<section class="quote-band">
+  <div class="quote-inner shell">
+    <div class="quote-mark">♣</div>
+    <div>
+      <blockquote>“Le auto non sono solo mezzi.<br>Sono storie che continuano a vivere.”</blockquote>
+      <div class="tricolore mini" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+
+<section class="section shell" id="registry">
+  <div class="section-head">
+    <div><div class="eyebrow">REGISTRO PUBBLICO</div><h2>Esemplari identificati</h2></div>
+    <p>Vengono mostrati soltanto i numeri per cui esiste una fonte pubblica che documenta esplicitamente il numero Launch Edition.</p>
   </div>
   <div id="grid" class="grid"></div>
 </section>
-<section class="section map-section" id="map-section">
-  <div class="section-head map-title"><div><div class="eyebrow">ESEMPLARI IDENTIFICATI</div><h2>Mappa interattiva</h2></div><p>Le posizioni indicano esclusivamente città/area o paese documentati nelle fonti pubbliche. Non sono indirizzi esatti.</p></div>
+
+<section class="section shell" id="map-section">
+  <div class="section-head">
+    <div><div class="eyebrow">ESEMPLARI IDENTIFICATI</div><h2>Mappa interattiva</h2></div>
+    <p>Le posizioni indicano esclusivamente città/area o paese documentati nelle fonti pubbliche. Non rappresentano indirizzi esatti.</p>
+  </div>
+
   <div class="map-layout">
-    <div>
-      <div class="map-toolbar" aria-label="Controlli mappa">
+    <div class="map-panel">
+      <div class="map-toolbar">
         <button type="button" id="zoomOut" aria-label="Riduci mappa">−</button>
         <button type="button" id="zoomReset">100%</button>
         <button type="button" id="zoomIn" aria-label="Ingrandisci mappa">+</button>
-        <span class="map-count"><b id="mappedCount">0</b> vetture</span>
+        <span class="map-count"><b id="mappedCount">0</b> vetture mappate</span>
       </div>
       <div class="map-viewport" id="mapViewport">
         <div class="map-canvas" id="mapCanvas">
@@ -55,20 +140,34 @@
       </div>
       <div class="map-legend"><span><i class="dot exact"></i>Città/area documentata</span><span><i class="dot country"></i>Solo paese documentato</span></div>
     </div>
-    <aside class="map-card" id="mapCard"><div class="map-card-kicker">MAPPA</div><h3>Seleziona un marker</h3><p>Tocca un numero sulla mappa per vedere i dati dell'esemplare.</p></aside>
+    <aside class="map-card" id="mapCard">
+      <div class="map-card-kicker">MAPPA</div><h3>Seleziona un marker</h3><p>Tocca un numero sulla mappa per vedere i dati dell'esemplare.</p>
+    </aside>
   </div>
 </section>
-<section class="section" id="contribute">
-  <div class="section-head"><div><div class="eyebrow">PARTECIPA</div><h2>Contribuisci al registro</h2></div><p>Le segnalazioni vengono moderate prima di qualsiasi modifica pubblica. Non inviare VIN completi, targhe, telefoni o indirizzi.</p></div>
+
+<section class="section shell" id="contribute">
+  <div class="section-head">
+    <div><div class="eyebrow">CONTRIBUISCI AL REGISTRO</div><h2>Segnala, rivendica, correggi</h2></div>
+    <p>Le segnalazioni vengono moderate prima di modificare il registro pubblico. Non inviare VIN completi, targhe, telefoni o indirizzi.</p>
+  </div>
   <div class="forms">
     <article class="formbox"><h3>Questa è la mia vettura</h3><p>Rivendica un numero già presente e allega una fonte pubblica.</p><button onclick="issue('claim')">Rivendica</button></article>
-    <article class="formbox"><h3>Segnala una vettura</h3><p>Aggiungi un esemplare solo quando il numero Launch Edition è documentato esplicitamente.</p><button onclick="issue('new_vehicle')">Segnala</button></article>
-    <article class="formbox"><h3>Correggi dati</h3><p>Proponi una correzione a una scheda esistente allegando l'evidenza.</p><button onclick="issue('correction')">Correggi</button></article>
+    <article class="formbox"><h3>Segnala una vettura</h3><p>Aggiungi un esemplare solo se il numero Launch Edition è documentato esplicitamente.</p><button onclick="issue('new_vehicle')">Segnala</button></article>
+    <article class="formbox"><h3>Correggi dati</h3><p>Segnala una correzione a una scheda esistente con la relativa evidenza.</p><button onclick="issue('correction')">Correggi</button></article>
   </div>
 </section>
 </main>
+
 <dialog id="dlg"><button class="close" onclick="dlg.close()" aria-label="Chiudi">×</button><div id="detail" class="detail"></div></dialog>
-<footer>Progetto archivistico indipendente. Non affiliato, sponsorizzato o approvato da Alfa Romeo o Stellantis. I nomi e i marchi appartengono ai rispettivi titolari.</footer>
+
+<footer class="site-footer">
+  <div class="footer-inner shell">
+    <div><strong>Giulietta QV Launch Edition — International Registry</strong><p>Registro indipendente, non ufficiale Alfa Romeo / Stellantis.</p></div>
+    <div class="footer-links"><a href="#top">Home</a><a href="#registry">Registro</a><a href="#map-section">Mappa</a><a href="#contribute">Community</a></div>
+    <div class="footer-tag">Passione. Persone. Storia.</div>
+  </div>
+</footer>
 <script src="assets/app-v3.js?v=20260922-2348"></script>
 </body>
 </html>
