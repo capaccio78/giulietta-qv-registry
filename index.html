@@ -6,7 +6,7 @@
 <title>Giulietta QV Launch Edition — International Registry</title>
 <meta name="description" content="Registro indipendente degli esemplari Alfa Romeo Giulietta QV Launch Edition identificati.">
 <link rel="stylesheet" href="assets/style-v4.css?v=20260923-owner-art">
-<link rel="stylesheet" href="assets/member-area.css?v=20260923-001">
+<link rel="stylesheet" href="assets/member-area.css?v=20260923-002">
 </head>
 <body>
 <header class="site-header">
@@ -161,26 +161,49 @@
   <p class="privacy-note">La targa e i recapiti sono facoltativi. Scegli tu se renderli pubblici, visibili soltanto agli utenti registrati oppure privati. L’email di contatto non viene mai presa automaticamente dall’account e viene mostrata ai membri solo con consenso esplicito. Non inserire indirizzi di abitazione.</p>
 
   <div class="account-grid">
-    <article class="account-panel" id="authGuest">
-      <h3>Accedi o registrati</h3>
-      <p>Un account consente di associare una Giulietta al proprio profilo e gestire i dati volontari del proprietario.</p>
-      <div class="auth-tabs">
-        <button type="button" class="auth-tab is-active" data-mode="login">Accedi</button>
-        <button type="button" class="auth-tab" data-mode="register">Registrati</button>
+    <article class="account-panel account-access-panel" id="authGuest">
+      <div class="auth-tabs auth-tabs-main" role="tablist" aria-label="Accesso e registrazione">
+        <button type="button" class="auth-tab is-active" data-mode="login" role="tab" aria-selected="true">Accedi</button>
+        <button type="button" class="auth-tab" data-mode="register" role="tab" aria-selected="false">Registrati</button>
       </div>
-      <form class="account-form" id="loginForm">
-        <label>Email<input required type="email" name="email" autocomplete="email"></label>
-        <label>Password<input required minlength="8" type="password" name="password" autocomplete="current-password"></label>
-        <button type="submit">Accedi</button>
-      </form>
-      <form class="account-form" id="registerForm" hidden>
-        <label>Nome o nickname pubblico<input maxlength="80" type="text" name="display_name" autocomplete="nickname" placeholder="Facoltativo"></label>
-        <label>Email account<input required type="email" name="email" autocomplete="email"></label>
-        <label>Password<input required minlength="8" type="password" name="password" autocomplete="new-password"></label>
-        <div class="help">L’email usata per l’account non viene pubblicata automaticamente.</div>
-        <button type="submit">Crea account</button>
-      </form>
-      <button type="button" id="resendSignup" class="account-action secondary">Reinvia email di attivazione</button>
+
+      <section class="auth-pane" id="loginPane">
+        <h3>Accedi</h3>
+        <p>Entra nell’area riservata per gestire il profilo e la tua Launch Edition.</p>
+        <form class="account-form" id="loginForm">
+          <label>Email<input required type="email" name="email" autocomplete="email"></label>
+          <label>Password<input required minlength="8" type="password" name="password" autocomplete="current-password"></label>
+          <button type="submit">Accedi</button>
+        </form>
+        <button type="button" id="showResetPassword" class="text-action">Password dimenticata?</button>
+      </section>
+
+      <section class="auth-pane" id="registerPane" hidden>
+        <h3>Registrati</h3>
+        <p>Crea un account per associare la tua vettura e scegliere quali dati condividere.</p>
+        <form class="account-form" id="registerForm">
+          <label>Nome o nickname pubblico<input maxlength="80" type="text" name="display_name" autocomplete="nickname" placeholder="Facoltativo"></label>
+          <label>Email account<input required type="email" name="email" autocomplete="email"></label>
+          <label>Password<input required minlength="8" type="password" name="password" autocomplete="new-password"></label>
+          <label class="bot-field" aria-hidden="true">Sito web<input tabindex="-1" autocomplete="off" type="text" name="website"></label>
+          <div class="help">L’email dell’account non viene pubblicata automaticamente.</div>
+          <div id="captchaMount" class="captcha-mount" hidden></div>
+          <button type="submit">Crea account</button>
+        </form>
+        <button type="button" id="resendSignup" class="account-action secondary">Reinvia email di attivazione</button>
+      </section>
+
+      <section class="auth-pane" id="resetPane" hidden>
+        <h3>Reimposta password</h3>
+        <p>Inserisci l’email del tuo account. Riceverai un link per scegliere una nuova password.</p>
+        <form class="account-form" id="resetPasswordForm">
+          <label>Email<input required type="email" name="email" autocomplete="email"></label>
+          <label class="bot-field" aria-hidden="true">Sito web<input tabindex="-1" autocomplete="off" type="text" name="website"></label>
+          <button type="submit">Invia link di recupero</button>
+        </form>
+        <button type="button" id="backToLogin" class="text-action">← Torna ad Accedi</button>
+      </section>
+
       <div id="authMessage" class="auth-message" aria-live="polite"></div>
     </article>
 
@@ -196,6 +219,17 @@
         <button type="submit">Salva profilo</button>
         <div id="profileMessage" class="auth-message" aria-live="polite"></div>
       </form>
+
+      <div class="password-box" id="passwordBox">
+        <h4>Cambia password</h4>
+        <form class="account-form" id="changePasswordForm">
+          <label id="currentPasswordLabel">Password attuale<input minlength="8" type="password" name="current_password" autocomplete="current-password"></label>
+          <label>Nuova password<input required minlength="8" type="password" name="new_password" autocomplete="new-password"></label>
+          <label>Ripeti nuova password<input required minlength="8" type="password" name="confirm_password" autocomplete="new-password"></label>
+          <button type="submit">Aggiorna password</button>
+          <div id="passwordMessage" class="auth-message" aria-live="polite"></div>
+        </form>
+      </div>
     </article>
 
     <article class="account-panel" id="vehicleMember" hidden>
@@ -258,6 +292,6 @@
 </footer>
 <script src="assets/app-v3.js?v=20260923-userphotos"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/member-area.js?v=20260923-005"></script>
+<script src="assets/member-area.js?v=20260923-006"></script>
 </body>
 </html>
