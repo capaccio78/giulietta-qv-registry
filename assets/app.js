@@ -1,5 +1,5 @@
 let cars=[];
-const grid=document.querySelector('#grid'),q=document.querySelector('#q'),state=document.querySelector('#state'),verify=document.querySelector('#verify'),dlg=document.querySelector('#dlg'),detail=document.querySelector('#detail');
+const grid=document.querySelector('#grid'),q=document.querySelector('#q'),verify=document.querySelector('#verify'),dlg=document.querySelector('#dlg'),detail=document.querySelector('#detail');
 
 const mapLocations={
 119:{lat:52.1326,lng:5.2913,scope:'country',label:'Paesi Bassi'},
@@ -28,16 +28,17 @@ fetch('data/registry.json').then(r=>r.json()).then(d=>{
 });
 
 function render(){
-  let s=q.value.toLowerCase(),st=state.value,v=verify.value;
-  let a=cars.filter(x=>(!s||JSON.stringify(x).toLowerCase().includes(s))&&(!st||(st==='yes')===x.identified)&&(!v||x.v===v));
+  let s=q.value.toLowerCase(),v=verify.value;
+  let a=cars.filter(x=>(!s||JSON.stringify(x).toLowerCase().includes(s))&&(!v||x.v===v));
   grid.innerHTML=a.map(x=>'<article class="card" onclick="openCar('+x.number+')"><div class="num">#'+x.numberLabel+'</div><div>'+(x.identified?(x.color||'Colore non documentato'):'Nessuna informazione pubblica')+'</div><div class="muted">'+(x.identified?([x.country,x.city].filter(Boolean).join(' · ')||'Località non documentata'):'')+'</div>'+(x.v?'<span class="tag">Verifica '+x.v+'</span>':'')+'</article>').join('');
 }
-[q,state,verify].forEach(e=>e.addEventListener('input',render));
+[q,verify].forEach(e=>e.addEventListener('input',render));
 
 function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
 function openCar(n){
-  let x=cars[n-1];
+  let x=cars.find(c=>c.number===n);
+  if(!x)return;
   detail.innerHTML='<h2>#'+x.numberLabel+'</h2>'+(x.identified?'<p><b>Colore:</b> '+esc(x.color||'Non documentato')+'<br><b>Paese:</b> '+esc(x.country||'Non documentato')+'<br><b>Città:</b> '+esc(x.city||'Non documentata')+'<br><b>Km documentati:</b> '+esc(x.km||'—')+'<br><b>Proprietario/nickname pubblico:</b> '+esc(x.owner||'—')+'<br><b>Venditore pubblico:</b> '+esc(x.seller||'—')+'<br><b>Modifiche:</b> '+esc(x.mods||'—')+'<br><b>Livello verifica:</b> '+esc(x.v||'—')+'</p><p><a class="source" target="_blank" rel="noopener" href="'+encodeURI(x.source)+'">Apri fonte: '+esc(x.label)+'</a></p>':'<p>Nessuna informazione pubblica.</p>')+'<button onclick="issue(\'correction\','+n+')">Proponi una correzione</button>';
   dlg.showModal();
 }
