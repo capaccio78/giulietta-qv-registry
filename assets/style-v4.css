@@ -15,3 +15,88 @@
 @media(max-width:1080px){.hero-inner{grid-template-columns:1fr}.hero-visual{min-height:390px}.badge-999{top:0}.feature-grid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.forms{grid-template-columns:1fr}.section-head{grid-template-columns:1fr}.map-layout{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr}.header-inner{grid-template-columns:auto 1fr}.header-actions{display:none}}
 @media(max-width:740px){:root{--shell:min(100vw - 24px,1240px)}.header-inner{grid-template-columns:1fr;gap:8px;padding:11px 0}.nav{justify-content:flex-start}.brand-script{font-size:25px}.hero-inner{padding:30px 0;min-height:auto}.hero h1{font-size:42px}.hero blockquote,.quote-band blockquote{font-size:29px}.badge-999{position:static;text-align:left;margin-bottom:12px}.hero-visual{min-height:330px}.car-poster{top:54px;left:0}.car-art{height:190px}.wheel{width:56px;height:56px}.stats{grid-template-columns:1fr 1fr}.stat{border-right:0;border-bottom:1px solid rgba(255,255,255,.08)}.stat:nth-last-child(-n+2){border-bottom:0}.search-inner{grid-template-columns:1fr}.advanced-link{justify-self:start}.feature-grid{grid-template-columns:1fr}.feature-body p{min-height:0}.quote-inner{grid-template-columns:1fr}.quote-mark{display:none}.section{padding:40px 0}.section-head h2{font-size:35px}.grid{grid-template-columns:1fr}.map-toolbar{flex-wrap:wrap}.map-count{width:100%;margin-left:0}.forms{grid-template-columns:1fr}.footer-links{gap:9px}}
 @media(max-width:430px){body{font-size:14px}.nav a{padding:7px 9px;font-size:13px}.hero h1{font-size:35px}.hero h1 span{font-size:.48em}.tricolore{width:170px}.poster-footer b{font-size:24px}.section-head h2{font-size:31px}.map-pin{width:34px;height:34px}.map-pin span{font-size:8px}}
+
+/* v5 — photographic treatment inspired by the original visual mockup */
+.hero{
+  background-image:
+    linear-gradient(90deg,rgba(2,5,8,.96) 0%,rgba(2,5,8,.84) 34%,rgba(2,5,8,.35) 58%,rgba(2,5,8,.08) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.24)),
+    url("mockup-hero.webp");
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+}
+.hero:before{background:linear-gradient(90deg,rgba(2,4,6,.35),transparent 64%)}
+.hero-inner{grid-template-columns:minmax(0,720px) 1fr;min-height:650px}
+.hero-copy{text-shadow:0 2px 18px rgba(0,0,0,.52)}
+.hero-visual{min-height:520px}
+.car-poster{display:none}
+.badge-999{top:26px;right:0;text-shadow:0 3px 18px rgba(0,0,0,.7)}
+.badge-999 b{font-size:50px}
+.feature-card{transition:transform .2s ease,border-color .2s ease}
+.feature-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.18)}
+.feature-art{
+  position:relative;
+  height:168px;
+  background-size:cover!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  overflow:hidden;
+}
+.feature-art:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.24));
+  pointer-events:none;
+}
+.art-project{
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.08)),
+    url("mockup-quadrifoglio.webp");
+}
+.art-project .qv-mark{display:none}
+.art-registry{
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.12)),
+    url("mockup-giulietta.webp");
+}
+.art-registry span{display:none}
+.art-owner{
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.15)),
+    url("mockup-owner.webp");
+}
+.art-owner span{display:none}
+.art-map{filter:saturate(.85) contrast(1.08)}
+.feature-body{background:linear-gradient(180deg,rgba(11,14,18,.98),rgba(7,9,12,.99))}
+.quote-band{
+  background-image:
+    linear-gradient(90deg,#07090c 0%,#080b0e 52%,rgba(8,10,13,.82) 72%,rgba(8,10,13,.55) 100%),
+    url("mockup-owner.webp");
+  background-size:auto,520px auto;
+  background-repeat:no-repeat;
+  background-position:center,right 12% center;
+}
+.quote-inner{min-height:210px}
+.map-panel{overflow:hidden}
+.map-canvas img{filter:saturate(.7) contrast(1.08) brightness(.9)}
+@media(max-width:1080px){
+  .hero-inner{grid-template-columns:minmax(0,720px) 1fr}
+  .hero-visual{display:block;min-height:420px}
+  .badge-999{right:14px}
+}
+@media(max-width:740px){
+  .hero{
+    background-position:62% center;
+    background-image:
+      linear-gradient(180deg,rgba(2,5,8,.86) 0%,rgba(2,5,8,.75) 48%,rgba(2,5,8,.56) 100%),
+      url("mockup-hero.webp");
+  }
+  .hero-inner{display:block;min-height:610px;padding:36px 0 28px}
+  .hero-copy{max-width:100%}
+  .hero-visual{min-height:110px;margin-top:14px}
+  .badge-999{position:static;text-align:left}
+  .feature-art{height:190px}
+  .quote-band{background-image:linear-gradient(180deg,rgba(7,9,12,.96),rgba(7,9,12,.9)),url("mockup-owner.webp");background-size:cover;background-position:center}
+}
