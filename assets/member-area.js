@@ -238,7 +238,7 @@
     const display_name = String(fd.get('display_name')||'').trim();
     const {data,error} = await client.auth.signUp({
       email,password,
-      options:{data:{display_name}}
+      options:{data:{display_name},emailRedirectTo:'https://capaccio78.github.io/giulietta-qv-registry/'}
     });
     if (error) return message(error.message,'error');
     if (data.session) message('Account creato e accesso effettuato.','success');
