@@ -179,16 +179,6 @@
 }
 
 
-/* project + owner merged card */
-.art-project-owner{
-  background-image:
-    linear-gradient(180deg,rgba(4,7,9,.05),rgba(4,7,9,.28)),
-    url("project-qv-detail.jpg"),
-    url("owner-key.jpg")!important;
-  background-size:100% 100%,50% 100%,50% 100%!important;
-  background-position:center,left center,right center!important;
-  background-repeat:no-repeat!important;
-}
 .feature-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .feature-actions a{display:inline-block}
 @media(max-width:1180px){.feature-grid{grid-template-columns:repeat(2,1fr)}}
