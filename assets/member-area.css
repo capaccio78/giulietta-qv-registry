@@ -1,0 +1,49 @@
+/* Area riservata + dati proprietario */
+.account-section{padding-top:24px}
+.account-status{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:#0b1016;color:#d8d0c8;font-size:13px}
+.account-status:before{content:"";width:8px;height:8px;border-radius:50%;background:#7f8790}
+.account-status.is-auth:before{background:#38b36a}
+.account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.account-panel{padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,#0f1318,#090c10);box-shadow:var(--shadow)}
+.account-panel h3{margin:0 0 8px;font-size:28px;line-height:1.08}
+.account-panel p{color:#c7c0ba}
+.account-panel[hidden]{display:none!important}
+.auth-tabs{display:flex;gap:8px;margin:18px 0}
+.auth-tab{min-height:42px;padding:0 15px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:#111820;color:#fff;cursor:pointer}
+.auth-tab.is-active{background:linear-gradient(180deg,var(--red2),var(--red));border-color:transparent}
+.account-form{display:grid;gap:13px}
+.account-form label{display:grid;gap:6px;color:#ddd5cf;font-size:13px}
+.account-form input,.account-form select,.account-form textarea{width:100%;min-height:46px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#090e13;color:#fff;outline:none}
+.account-form textarea{min-height:86px;resize:vertical}
+.account-form input:focus,.account-form select:focus,.account-form textarea:focus{border-color:rgba(221,45,71,.75);box-shadow:0 0 0 3px rgba(221,45,71,.12)}
+.account-form .inline-check{display:flex;grid-template-columns:none;align-items:flex-start;gap:10px}
+.account-form .inline-check input{width:18px;min-height:18px;margin-top:2px;accent-color:var(--red2)}
+.account-form .help{font-size:12px;color:#9d958f;margin-top:-3px}
+.account-form button,.account-action{min-height:46px;padding:0 16px;border:0;border-radius:10px;background:linear-gradient(180deg,var(--red2),var(--red));color:#fff;font-weight:700;cursor:pointer}
+.account-form button.secondary,.account-action.secondary{background:#151b22;border:1px solid rgba(255,255,255,.12)}
+.auth-message{min-height:22px;margin-top:12px;color:#d9d1ca}
+.auth-message.error{color:#ff8293}
+.auth-message.success{color:#78d29b}
+.member-summary{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.member-email{color:#aaa29b;word-break:break-all}
+.claims-list{display:grid;gap:10px;margin-top:14px}
+.claim-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:#0b1015}
+.claim-num{font:700 24px/1 Georgia,serif}
+.claim-meta{color:#aaa29b;font-size:13px}
+.status-pill{padding:5px 9px;border-radius:999px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;border:1px solid rgba(255,255,255,.12)}
+.status-pill.verified{background:rgba(56,179,106,.12);color:#8ae1aa;border-color:rgba(56,179,106,.3)}
+.status-pill.pending{background:rgba(225,164,57,.12);color:#f0c875;border-color:rgba(225,164,57,.3)}
+.status-pill.rejected{background:rgba(221,45,71,.12);color:#ff8b9a;border-color:rgba(221,45,71,.3)}
+.registry-extra{margin-top:14px;padding:13px 14px;border-radius:12px;background:#0a0f14;border:1px solid rgba(255,255,255,.08);font-size:13px}
+.registry-extra strong{display:block;margin-bottom:5px;color:#f1ebe6}
+.registry-extra .extra-line{color:#c9c1ba}
+.registry-extra .members-only{color:#ff7184}
+.detail .registry-private-extras{margin-top:18px;padding:16px;border-radius:12px;background:#0a0f14;border:1px solid rgba(255,255,255,.09)}
+.detail .registry-private-extras h3{margin:0 0 10px;font-size:20px}
+.detail .registry-private-extras dl{display:grid;grid-template-columns:max-content 1fr;gap:7px 14px;margin:0}
+.detail .registry-private-extras dt{color:#918a84}
+.detail .registry-private-extras dd{margin:0;color:#fff;word-break:break-word}
+.privacy-note{padding:12px 14px;border-left:3px solid var(--red2);background:rgba(181,22,49,.08);color:#cfc7c1;font-size:13px}
+.login-link.auth-button-reset,.header-btn.auth-button-reset{cursor:pointer}
+@media(max-width:900px){.account-grid{grid-template-columns:1fr}}
+@media(max-width:740px){.account-panel{padding:18px}.member-summary{display:grid}.detail .registry-private-extras dl{grid-template-columns:1fr;gap:2px}.detail .registry-private-extras dd{margin-bottom:8px}}
