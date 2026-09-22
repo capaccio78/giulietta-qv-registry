@@ -42,6 +42,7 @@
   let captchaToken = null;
   let recoveryMode = false;
   const authStartedAt = Date.now();
+  const openedFromRecoveryLink = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
 
   function message(text, type='') {
     if (!authMessage) return;
@@ -285,8 +286,7 @@
     const fd = new FormData(loginForm);
     const {error} = await client.auth.signInWithPassword({
       email:String(fd.get('email')||'').trim(),
-      password:String(fd.get('password')||''),
-      options: captchaToken ? {captchaToken} : undefined
+      password:String(fd.get('password')||'')
     });
     resetCaptcha();
     if (error) message(error.message,'error'); else message('Accesso effettuato.','success');
@@ -345,6 +345,13 @@
     if (newPassword !== confirmPassword) {
       if (passwordMessage) {
         passwordMessage.textContent = 'Le due nuove password non coincidono.';
+        passwordMessage.className = 'auth-message error';
+      }
+      return;
+    }
+    if (!recoveryMode && !currentPassword) {
+      if (passwordMessage) {
+        passwordMessage.textContent = 'Inserisci la password attuale.';
         passwordMessage.className = 'auth-message error';
       }
       return;
@@ -463,7 +470,19 @@
     try {
       await loadVehicleOptions();
       const {data:{session:current}} = await client.auth.getSession();
+      if (openedFromRecoveryLink && current?.user) {
+        recoveryMode = true;
+        if (currentPasswordLabel) currentPasswordLabel.hidden = true;
+        if (passwordMessage) {
+          passwordMessage.textContent = 'Inserisci e conferma la nuova password.';
+          passwordMessage.className = 'auth-message success';
+        }
+      }
       await onSession(current);
+      if (openedFromRecoveryLink && current?.user) {
+        location.hash = 'account';
+        setTimeout(() => $('#passwordBox')?.scrollIntoView({behavior:'smooth',block:'center'}),100);
+      }
       renderCaptcha();
       client.auth.onAuthStateChange((event,next) => setTimeout(async () => {
         if (event === 'PASSWORD_RECOVERY') {
