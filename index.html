@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Giulietta QV Launch Edition — International Registry</title>
 <meta name="description" content="Registro indipendente degli esemplari Alfa Romeo Giulietta QV Launch Edition identificati.">
-<link rel="stylesheet" href="assets/style-v4.css?v=20260923-hero-png-2">
+<link rel="stylesheet" href="assets/style-v4.css?v=20260923-hero-png-2">\n<link rel="stylesheet" href="assets/member-area.css?v=20260923-001">
 </head>
 <body>
 <header class="site-header">
@@ -18,7 +18,7 @@
       <a href="#registry">Registro</a>
       <a href="#map-section">Mappa</a>
       <a href="#project">Progetto</a>
-      <a href="#contribute">Community</a>
+      <a href="#contribute">Community</a>\n      <a href="#account">Area riservata</a>
     </nav>
     <div class="header-actions">
       <a class="login-link" href="#contribute">Accedi</a>
@@ -100,7 +100,7 @@
   </article>
   <article class="feature-card">
     <div class="feature-art art-owner"><span>♣</span></div>
-    <div class="feature-body"><h3>Sei un proprietario?</h3><p>Rivendica, segnala o correggi una vettura tramite il flusso di moderazione.</p><a href="#contribute">Partecipa →</a></div>
+    <div class="feature-body"><h3>Sei un proprietario?</h3><p>Accedi all’area riservata per associare la tua vettura, aggiungere targa, valore e contatti con visibilità controllata.</p><a href="#account">Area riservata →</a></div>
   </article>
 </section>
 
@@ -150,10 +150,91 @@
   </div>
 </section>
 
+
+<section class="section shell account-section" id="account">
+  <div class="section-head">
+    <div><div class="eyebrow">AREA RISERVATA</div><h2>Proprietari e membri</h2></div>
+    <div><span id="authStatus" class="account-status">Non autenticato</span></div>
+  </div>
+  <p class="privacy-note">La targa e i recapiti sono facoltativi. Scegli tu se renderli pubblici, visibili soltanto agli utenti registrati oppure privati. L’email di contatto non viene mai presa automaticamente dall’account e viene mostrata ai membri solo con consenso esplicito. Non inserire indirizzi di abitazione.</p>
+
+  <div class="account-grid">
+    <article class="account-panel" id="authGuest">
+      <h3>Accedi o registrati</h3>
+      <p>Un account consente di associare una Giulietta al proprio profilo e gestire i dati volontari del proprietario.</p>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab is-active" data-mode="login">Accedi</button>
+        <button type="button" class="auth-tab" data-mode="register">Registrati</button>
+      </div>
+      <form class="account-form" id="loginForm">
+        <label>Email<input required type="email" name="email" autocomplete="email"></label>
+        <label>Password<input required minlength="8" type="password" name="password" autocomplete="current-password"></label>
+        <button type="submit">Accedi</button>
+      </form>
+      <form class="account-form" id="registerForm" hidden>
+        <label>Nome o nickname pubblico<input maxlength="80" type="text" name="display_name" autocomplete="nickname" placeholder="Facoltativo"></label>
+        <label>Email account<input required type="email" name="email" autocomplete="email"></label>
+        <label>Password<input required minlength="8" type="password" name="password" autocomplete="new-password"></label>
+        <div class="help">L’email usata per l’account non viene pubblicata automaticamente.</div>
+        <button type="submit">Crea account</button>
+      </form>
+      <div id="authMessage" class="auth-message" aria-live="polite"></div>
+    </article>
+
+    <article class="account-panel" id="authMember" hidden>
+      <div class="member-summary">
+        <div><h3>Il tuo profilo</h3><div id="accountEmail" class="member-email"></div></div>
+        <button type="button" id="logoutBtn" class="account-action secondary">Esci</button>
+      </div>
+      <form class="account-form" id="profileForm">
+        <label>Nome o nickname pubblico<input maxlength="80" type="text" name="display_name" autocomplete="nickname"></label>
+        <label>Email di contatto volontaria<input maxlength="254" type="email" name="contact_email" autocomplete="email" placeholder="Facoltativa"></label>
+        <label class="inline-check"><input type="checkbox" name="share_email"><span>Mostra questa email esclusivamente agli utenti registrati quando la mia vettura sarà verificata.</span></label>
+        <button type="submit">Salva profilo</button>
+        <div id="profileMessage" class="auth-message" aria-live="polite"></div>
+      </form>
+    </article>
+
+    <article class="account-panel" id="vehicleMember" hidden>
+      <h3>La tua Launch Edition</h3>
+      <p>Associa un numero già documentato. I dati inseriti restano in moderazione finché la proprietà non viene verificata.</p>
+      <form class="account-form" id="vehicleForm">
+        <label>Numero Launch Edition
+          <select required name="launch_number" id="claimNumber"><option value="">Caricamento…</option></select>
+        </label>
+        <label>Targa<input maxlength="20" type="text" name="plate" autocomplete="off" placeholder="Facoltativa"></label>
+        <label>Visibilità targa
+          <select name="plate_visibility"><option value="private">Privata</option><option value="members">Solo utenti registrati</option><option value="public">Pubblica</option></select>
+        </label>
+        <label>Valore indicativo (€)<input min="0" step="100" type="number" name="estimated_value_eur" inputmode="decimal" placeholder="Facoltativo"></label>
+        <label>Data della valutazione<input type="date" name="value_as_of"></label>
+        <label>Visibilità valore
+          <select name="value_visibility"><option value="public">Pubblico</option><option value="members">Solo utenti registrati</option><option value="private">Privato</option></select>
+        </label>
+        <label>Indirizzo / recapito di contatto volontario<input maxlength="240" type="text" name="contact_address" placeholder="Sito, profilo social, club o altro recapito non sensibile"></label>
+        <div class="help">Non inserire indirizzi di abitazione, numeri di telefono privati o altri dati che non vuoi rendere visibili.</div>
+        <label>Visibilità recapito
+          <select name="contact_visibility"><option value="private">Privato</option><option value="members">Solo utenti registrati</option><option value="public">Pubblico</option></select>
+        </label>
+        <label>Fonte / prova per la verifica<input maxlength="1000" type="url" name="evidence_url" placeholder="https://…"></label>
+        <div id="claimStatus" class="help">Nuova richiesta: sarà sottoposta a verifica.</div>
+        <button type="submit">Salva e invia alla moderazione</button>
+        <div id="claimMessage" class="auth-message" aria-live="polite"></div>
+      </form>
+    </article>
+
+    <article class="account-panel" id="claimsMember" hidden>
+      <h3>Le tue richieste</h3>
+      <p>Seleziona una vettura per rivedere o aggiornare i dati. Le modifiche ai campi volontari non possono alterare lo stato di verifica.</p>
+      <div id="claimsList" class="claims-list"></div>
+    </article>
+  </div>
+</section>
+
 <section class="section shell" id="contribute">
   <div class="section-head">
     <div><div class="eyebrow">CONTRIBUISCI AL REGISTRO</div><h2>Segnala, rivendica, correggi</h2></div>
-    <p>Le segnalazioni vengono moderate prima di modificare il registro pubblico. Non inviare VIN completi, targhe, telefoni o indirizzi.</p>
+    <p>Le segnalazioni vengono moderate prima di modificare il registro pubblico. Non inviare VIN completi, telefoni o indirizzi di abitazione nelle segnalazioni pubbliche. Per targa, valore e contatti volontari usa l’area riservata.</p>
   </div>
   <div class="forms">
     <article class="formbox"><h3>Questa è la mia vettura</h3><p>Rivendica un numero già presente e allega una fonte pubblica.</p><button onclick="issue('claim')">Rivendica</button></article>
@@ -172,6 +253,6 @@
     <div class="footer-tag">Passione. Persone. Storia.</div>
   </div>
 </footer>
-<script src="assets/app-v3.js?v=20260923-userphotos"></script>
+<script src="assets/app-v3.js?v=20260923-userphotos"></script>\n<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>\n<script src="assets/member-area.js?v=20260923-001"></script>
 </body>
 </html>
