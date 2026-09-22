@@ -100,3 +100,47 @@
   .feature-art{height:190px}
   .quote-band{background-image:linear-gradient(180deg,rgba(7,9,12,.96),rgba(7,9,12,.9)),url("mockup-owner.webp");background-size:cover;background-position:center}
 }
+
+
+/* v4.1 — photographic treatment inspired by the approved mockup */
+.hero{
+  background:
+    linear-gradient(90deg,rgba(3,7,10,.92) 0%,rgba(3,7,10,.78) 32%,rgba(3,7,10,.16) 63%,rgba(3,7,10,.28) 100%),
+    url("https://forum.clubalfa.it/attachments/img_20201215_150156-jpg.217212/") 72% 52%/cover no-repeat;
+}
+.hero:before{background:linear-gradient(90deg,rgba(2,5,8,.88) 0 42%,rgba(2,5,8,.12) 67%,rgba(2,5,8,.05) 100%)}
+.hero-visual{opacity:.12;pointer-events:none}
+.art-project{
+  background:
+    linear-gradient(180deg,rgba(4,7,9,.08),rgba(4,7,9,.32)),
+    url("https://forum.clubalfa.it/attachments/img_20201215_150156-jpg.217212/") center 60%/cover no-repeat;
+}
+.art-registry{
+  background:
+    linear-gradient(180deg,rgba(4,7,9,.08),rgba(4,7,9,.32)),
+    url("https://s3-eu-west-1.amazonaws.com/eurekar-v2/uploads/images/original/giulybadge-hires.jpg") center/cover no-repeat;
+}
+.art-registry span{display:none}
+.art-owner{
+  background:
+    linear-gradient(180deg,rgba(4,7,9,.12),rgba(4,7,9,.36)),
+    url("https://2.bp.blogspot.com/_J3_liDBfbvs/S8x0jDOPOCI/AAAAAAAAnh0/WiHdgadyUOM/s1600/2011-Alfa-Romeo-Giulietta-Taillights.jpg") center/cover no-repeat;
+}
+.art-owner span{display:none}
+.feature-art{filter:saturate(.82) contrast(1.08)}
+.feature-card:hover .feature-art{filter:saturate(1) contrast(1.08);transform:scale(1.015)}
+.feature-art{transition:transform .28s ease,filter .28s ease}
+.quote-band{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(5,8,11,.96) 0%,rgba(5,8,11,.86) 48%,rgba(5,8,11,.42) 100%),
+    url("https://assets.autoweek.nl/m/c75qy19nxa67ec_800.jpg") right 55%/cover no-repeat;
+}
+.quote-inner{position:relative;z-index:1}
+@media(max-width:740px){
+  .hero{background-position:66% 50%}
+  .hero:before{background:linear-gradient(180deg,rgba(3,6,9,.72) 0%,rgba(3,6,9,.88) 58%,rgba(3,6,9,.96) 100%)}
+  .hero-visual{display:none}
+  .quote-band{background-position:70% 50%}
+}
