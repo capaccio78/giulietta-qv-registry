@@ -47,3 +47,16 @@
 .login-link.auth-button-reset,.header-btn.auth-button-reset{cursor:pointer}
 @media(max-width:900px){.account-grid{grid-template-columns:1fr}}
 @media(max-width:740px){.account-panel{padding:18px}.member-summary{display:grid}.detail .registry-private-extras dl{grid-template-columns:1fr;gap:2px}.detail .registry-private-extras dd{margin-bottom:8px}}
+
+/* auth tabs, password tools, anti-bot */
+.account-access-panel{grid-column:1/-1}
+.auth-tabs-main{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 22px}
+.auth-tabs-main .auth-tab{min-height:50px;font-size:15px;font-weight:800;letter-spacing:.02em}
+.auth-pane h3{margin-top:0}
+.text-action{margin-top:12px;padding:0;border:0;background:none;color:#ff7184;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.bot-field{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;opacity:0!important;pointer-events:none!important}
+.password-box{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.password-box h4{margin:0 0 14px;font-size:20px}
+.captcha-mount{margin:4px 0 2px;min-height:65px}
+#resendSignup[hidden],.auth-pane[hidden]{display:none!important}
+@media(max-width:740px){.auth-tabs-main{grid-template-columns:1fr 1fr}.auth-tabs-main .auth-tab{min-height:48px;padding:0 10px}}
