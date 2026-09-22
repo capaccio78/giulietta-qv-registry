@@ -329,7 +329,7 @@
     const email = String(fd.get('email')||'').trim();
     message('Invio del link di recupero…');
     const {error} = await client.auth.resetPasswordForEmail(email, {
-      redirectTo:'https://capaccio78.github.io/giulietta-qv-registry/#account'
+      redirectTo:'https://capaccio78.github.io/giulietta-qv-registry/'
     });
     if (error) message(error.message,'error');
     else message('Se l’indirizzo è registrato, riceverai un link per impostare una nuova password.','success');
