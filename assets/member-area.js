@@ -27,6 +27,7 @@
   const claimSelect = $('#claimNumber');
   const claimsList = $('#claimsList');
   const logoutBtn = $('#logoutBtn');
+  const resendSignup = $('#resendSignup');
 
   function message(text, type='') {
     if (!authMessage) return;
@@ -243,6 +244,22 @@
     if (error) return message(error.message,'error');
     if (data.session) message('Account creato e accesso effettuato.','success');
     else message('Account creato. Controlla l’email per confermare la registrazione, poi torna qui e accedi.','success');
+  });
+
+  resendSignup?.addEventListener('click', async () => {
+    const email = String(loginForm?.email?.value || registerForm?.email?.value || '').trim();
+    if (!email) {
+      message('Inserisci prima l’email usata per la registrazione.','error');
+      return;
+    }
+    message('Invio di una nuova email di attivazione…');
+    const {error} = await client.auth.resend({
+      type:'signup',
+      email,
+      options:{emailRedirectTo:'https://capaccio78.github.io/giulietta-qv-registry/'}
+    });
+    if (error) message(error.message,'error');
+    else message('Nuova email inviata. Usa il link più recente ricevuto.','success');
   });
 
   logoutBtn?.addEventListener('click', async () => {
