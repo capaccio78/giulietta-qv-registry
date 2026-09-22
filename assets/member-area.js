@@ -51,7 +51,7 @@
   }
 
   function setTab(mode) {
-    $('.auth-tab').forEach(b => {
+    $$('.auth-tab').forEach(b => {
       const active = b.dataset.mode === mode;
       b.classList.toggle('is-active', active);
       b.setAttribute('aria-selected', active ? 'true' : 'false');
@@ -67,7 +67,7 @@
     if (loginPane) loginPane.hidden = true;
     if (registerPane) registerPane.hidden = true;
     if (resetPane) resetPane.hidden = false;
-    $('.auth-tab').forEach(b => {
+    $$('.auth-tab').forEach(b => {
       b.classList.remove('is-active');
       b.setAttribute('aria-selected','false');
     });
@@ -98,10 +98,10 @@
     captchaMount.dataset.widgetId = id;
   }
 
-  $('.auth-tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.mode)));
+  $$('.auth-tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.mode)));
   showResetPassword?.addEventListener('click', showResetPane);
   backToLogin?.addEventListener('click', () => setTab('login'));
-  $$('.login-link, .header-btn').forEach(a => {
+  $$$('.login-link, .header-btn').forEach(a => {
     a.addEventListener('click', () => {
       if (session) return;
       setTab(a.classList.contains('header-btn') ? 'register' : 'login');
@@ -171,7 +171,7 @@
   function decorateCards() {
     const grid = $('#grid');
     if (!grid) return;
-    $$('.card', grid).forEach(card => {
+    $$$('.card', grid).forEach(card => {
       const n = Number(($('.num', card)?.textContent || '').replace(/\D/g,''));
       card.querySelector('.registry-extra')?.remove();
       const x = extras.get(n);
@@ -257,7 +257,7 @@
       return;
     }
     claimsList.innerHTML = claims.map(c => '<button type="button" class="claim-row" data-claim="'+c.launch_number+'"><span class="claim-num">#'+String(c.launch_number).padStart(3,'0')+'</span><span class="claim-meta">'+esc(c.plate || 'Targa non indicata')+'</span><span class="status-pill '+esc(c.status)+'">'+esc(c.status)+'</span></button>').join('');
-    $$('.claim-row', claimsList).forEach(b => b.addEventListener('click', () => {
+    $$$('.claim-row', claimsList).forEach(b => b.addEventListener('click', () => {
       claimSelect.value = b.dataset.claim;
       fillClaimForm(Number(b.dataset.claim));
       vehiclePanel?.scrollIntoView({behavior:'smooth',block:'start'});
