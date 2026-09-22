@@ -28,6 +28,20 @@
   const claimsList = $('#claimsList');
   const logoutBtn = $('#logoutBtn');
   const resendSignup = $('#resendSignup');
+  const loginPane = $('#loginPane');
+  const registerPane = $('#registerPane');
+  const resetPane = $('#resetPane');
+  const showResetPassword = $('#showResetPassword');
+  const backToLogin = $('#backToLogin');
+  const resetPasswordForm = $('#resetPasswordForm');
+  const changePasswordForm = $('#changePasswordForm');
+  const currentPasswordLabel = $('#currentPasswordLabel');
+  const passwordMessage = $('#passwordMessage');
+  const captchaMount = $('#captchaMount');
+  const TURNSTILE_SITE_KEY = '';
+  let captchaToken = null;
+  let recoveryMode = false;
+  const authStartedAt = Date.now();
 
   function message(text, type='') {
     if (!authMessage) return;
@@ -36,13 +50,56 @@
   }
 
   function setTab(mode) {
-    $$('.auth-tab').forEach(b => b.classList.toggle('is-active', b.dataset.mode === mode));
-    if (loginForm) loginForm.hidden = mode !== 'login';
-    if (registerForm) registerForm.hidden = mode !== 'register';
+    $('.auth-tab').forEach(b => {
+      const active = b.dataset.mode === mode;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    if (loginPane) loginPane.hidden = mode !== 'login';
+    if (registerPane) registerPane.hidden = mode !== 'register';
+    if (resetPane) resetPane.hidden = true;
+    if (resendSignup) resendSignup.hidden = mode !== 'register';
     message('');
   }
 
-  $$('.auth-tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.mode)));
+  function showResetPane() {
+    if (loginPane) loginPane.hidden = true;
+    if (registerPane) registerPane.hidden = true;
+    if (resetPane) resetPane.hidden = false;
+    $('.auth-tab').forEach(b => {
+      b.classList.remove('is-active');
+      b.setAttribute('aria-selected','false');
+    });
+    if (resendSignup) resendSignup.hidden = true;
+    message('');
+  }
+
+  function botTrapTriggered(fd) {
+    return !!String(fd.get('website') || '').trim() || (Date.now() - authStartedAt < 1200);
+  }
+
+  function resetCaptcha() {
+    captchaToken = null;
+    if (window.turnstile && captchaMount?.dataset.widgetId) {
+      try { window.turnstile.reset(captchaMount.dataset.widgetId); } catch (_) {}
+    }
+  }
+
+  function renderCaptcha() {
+    if (!TURNSTILE_SITE_KEY || !captchaMount || !window.turnstile) return;
+    captchaMount.hidden = false;
+    const id = window.turnstile.render(captchaMount, {
+      sitekey: TURNSTILE_SITE_KEY,
+      theme: 'dark',
+      callback: token => { captchaToken = token; },
+      'expired-callback': () => { captchaToken = null; }
+    });
+    captchaMount.dataset.widgetId = id;
+  }
+
+  $('.auth-tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.mode)));
+  showResetPassword?.addEventListener('click', showResetPane);
+  backToLogin?.addEventListener('click', () => setTab('login'));
   $$('.login-link, .header-btn').forEach(a => {
     a.addEventListener('click', () => {
       if (session) return;
@@ -226,24 +283,83 @@
     e.preventDefault();
     message('Accesso in corso…');
     const fd = new FormData(loginForm);
-    const {error} = await client.auth.signInWithPassword({email:String(fd.get('email')||'').trim(),password:String(fd.get('password')||'')});
+    const {error} = await client.auth.signInWithPassword({
+      email:String(fd.get('email')||'').trim(),
+      password:String(fd.get('password')||''),
+      options: captchaToken ? {captchaToken} : undefined
+    });
+    resetCaptcha();
     if (error) message(error.message,'error'); else message('Accesso effettuato.','success');
   });
 
   registerForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    message('Creazione account…');
     const fd = new FormData(registerForm);
+    if (botTrapTriggered(fd)) {
+      message('Richiesta bloccata dalla protezione anti-bot. Riprova tra qualche secondo.','error');
+      return;
+    }
+    if (TURNSTILE_SITE_KEY && !captchaToken) {
+      message('Completa il controllo CAPTCHA.','error');
+      return;
+    }
+    message('Creazione account…');
     const email = String(fd.get('email')||'').trim();
     const password = String(fd.get('password')||'');
     const display_name = String(fd.get('display_name')||'').trim();
-    const {data,error} = await client.auth.signUp({
-      email,password,
-      options:{data:{display_name},emailRedirectTo:'https://capaccio78.github.io/giulietta-qv-registry/'}
-    });
+    const options = {
+      data:{display_name},
+      emailRedirectTo:'https://capaccio78.github.io/giulietta-qv-registry/'
+    };
+    if (captchaToken) options.captchaToken = captchaToken;
+    const {data,error} = await client.auth.signUp({email,password,options});
+    resetCaptcha();
     if (error) return message(error.message,'error');
     if (data.session) message('Account creato e accesso effettuato.','success');
     else message('Account creato. Controlla l’email per confermare la registrazione, poi torna qui e accedi.','success');
+  });
+
+  resetPasswordForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(resetPasswordForm);
+    if (botTrapTriggered(fd)) {
+      message('Richiesta bloccata dalla protezione anti-bot. Riprova tra qualche secondo.','error');
+      return;
+    }
+    const email = String(fd.get('email')||'').trim();
+    message('Invio del link di recupero…');
+    const {error} = await client.auth.resetPasswordForEmail(email, {
+      redirectTo:'https://capaccio78.github.io/giulietta-qv-registry/#account'
+    });
+    if (error) message(error.message,'error');
+    else message('Se l’indirizzo è registrato, riceverai un link per impostare una nuova password.','success');
+  });
+
+  changePasswordForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!session?.user) return;
+    const fd = new FormData(changePasswordForm);
+    const currentPassword = String(fd.get('current_password')||'');
+    const newPassword = String(fd.get('new_password')||'');
+    const confirmPassword = String(fd.get('confirm_password')||'');
+    if (newPassword !== confirmPassword) {
+      if (passwordMessage) {
+        passwordMessage.textContent = 'Le due nuove password non coincidono.';
+        passwordMessage.className = 'auth-message error';
+      }
+      return;
+    }
+    const payload = recoveryMode ? {password:newPassword} : {password:newPassword,currentPassword};
+    const {error} = await client.auth.updateUser(payload);
+    if (passwordMessage) {
+      passwordMessage.textContent = error ? error.message : 'Password aggiornata.';
+      passwordMessage.className = 'auth-message ' + (error ? 'error' : 'success');
+    }
+    if (!error) {
+      recoveryMode = false;
+      if (currentPasswordLabel) currentPasswordLabel.hidden = false;
+      changePasswordForm.reset();
+    }
   });
 
   resendSignup?.addEventListener('click', async () => {
@@ -263,6 +379,7 @@
   });
 
   logoutBtn?.addEventListener('click', async () => {
+    recoveryMode = false;
     await client.auth.signOut();
     location.hash = 'account';
   });
@@ -347,7 +464,22 @@
       await loadVehicleOptions();
       const {data:{session:current}} = await client.auth.getSession();
       await onSession(current);
-      client.auth.onAuthStateChange((_event,next) => setTimeout(() => onSession(next),0));
+      renderCaptcha();
+      client.auth.onAuthStateChange((event,next) => setTimeout(async () => {
+        if (event === 'PASSWORD_RECOVERY') {
+          recoveryMode = true;
+          if (currentPasswordLabel) currentPasswordLabel.hidden = true;
+          if (passwordMessage) {
+            passwordMessage.textContent = 'Inserisci e conferma la nuova password.';
+            passwordMessage.className = 'auth-message success';
+          }
+          location.hash = 'account';
+        }
+        await onSession(next);
+        if (event === 'PASSWORD_RECOVERY') {
+          $('#passwordBox')?.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+      },0));
     } catch (err) {
       message(err?.message || 'Errore di collegamento all’area riservata.','error');
     }
