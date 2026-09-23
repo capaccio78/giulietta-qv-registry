@@ -25,6 +25,7 @@
   const profileForm = $('#profileForm');
   const vehicleForm = $('#vehicleForm');
   const claimSelect = $('#claimNumber');
+  const numberAvailability = $('#numberAvailability');
   const claimsList = $('#claimsList');
   const logoutBtn = $('#logoutBtn');
   const resendSignup = $('#resendSignup');
@@ -163,11 +164,40 @@
       .order('launch_number');
     if (error) throw error;
     vehicleOptions = data || [];
-    if (claimSelect) {
-      claimSelect.innerHTML = '<option value="">Seleziona il numero Launch Edition</option>' +
-        vehicleOptions.map(v => '<option value="'+v.launch_number+'">#'+String(v.launch_number).padStart(3,'0')+' · '+esc([v.color,v.city||v.country].filter(Boolean).join(' · '))+'</option>').join('');
+  }
+
+  function numberState(number) {
+    const n = Number(number);
+    if (!Number.isInteger(n) || n < 1 || n > 999) return {valid:false,taken:false};
+    const vehicle = vehicleOptions.find(v => Number(v.launch_number) === n);
+    const own = claims.find(x => Number(x.launch_number) === n);
+    return {valid:true,taken:!!vehicle,vehicle,own};
+  }
+
+  function updateNumberAvailability() {
+    if (!claimSelect || !numberAvailability) return;
+    const s = numberState(claimSelect.value);
+    if (!claimSelect.value) {
+      numberAvailability.textContent = 'Inserisci un numero da 1 a 999.';
+      return;
+    }
+    if (!s.valid) {
+      numberAvailability.textContent = 'Numero non valido: inserisci un valore da 1 a 999.';
+      return;
+    }
+    if (s.own) {
+      numberAvailability.textContent = 'Hai già una richiesta per questo numero. Puoi aggiornarla qui.';
+    } else if (s.taken) {
+      numberAvailability.textContent = 'Numero già presente nel registro. Puoi rivendicarlo allegando una fonte/prova della proprietà.';
+    } else {
+      numberAvailability.textContent = 'Numero libero nel registro: puoi inviare la richiesta.';
     }
   }
+
+  claimSelect?.addEventListener('input', () => {
+    updateNumberAvailability();
+    fillClaimForm(Number(claimSelect.value));
+  });
 
   async function loadExtras() {
     let data = [];
@@ -283,6 +313,7 @@
     claimsList.innerHTML = claims.map(c => '<button type="button" class="claim-row" data-claim="'+c.launch_number+'"><span class="claim-num">#'+String(c.launch_number).padStart(3,'0')+'</span><span class="claim-meta">'+esc(c.plate || 'Targa non indicata')+'</span><span class="status-pill '+esc(c.status)+'">'+esc(c.status)+'</span></button>').join('');
     $$('.claim-row', claimsList).forEach(b => b.addEventListener('click', () => {
       claimSelect.value = b.dataset.claim;
+      updateNumberAvailability();
       fillClaimForm(Number(b.dataset.claim));
       vehiclePanel?.scrollIntoView({behavior:'smooth',block:'start'});
     }));
@@ -302,7 +333,7 @@
     const status = $('#claimStatus');
     if (status) status.textContent = c ? 'Stato: '+c.status+(c.admin_note ? ' · '+c.admin_note : '') : 'Nuova richiesta: sarà sottoposta a verifica.';
   }
-  claimSelect?.addEventListener('change', () => fillClaimForm(Number(claimSelect.value)));
+
 
   loginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -443,7 +474,18 @@
     if (!session?.user) return;
     const fd = new FormData(vehicleForm);
     const launch_number = Number(fd.get('launch_number'));
-    if (!launch_number) return;
+    const state = numberState(launch_number);
+    const out = $('#claimMessage');
+    if (!state.valid) {
+      out.textContent='Il numero Launch Edition deve essere compreso tra 1 e 999.';
+      out.className='auth-message error';
+      return;
+    }
+    if (state.taken && !state.own && !String(fd.get('evidence_url')||'').trim()) {
+      out.textContent='Questo numero è già presente nel registro. Per rivendicarlo inserisci una fonte/prova della proprietà.';
+      out.className='auth-message error';
+      return;
+    }
     const existing = claims.find(x => Number(x.launch_number) === launch_number);
     const payload = {
       owner_id: session.user.id,
@@ -460,7 +502,6 @@
     const res = existing
       ? await client.from('owner_vehicle_claims').update(payload).eq('id',existing.id)
       : await client.from('owner_vehicle_claims').insert(payload);
-    const out = $('#claimMessage');
     if (res.error) {
       out.textContent=res.error.message;
       out.className='auth-message error';
@@ -468,6 +509,7 @@
       out.textContent='Dati salvati. La richiesta resta in moderazione finché non viene verificata.';
       out.className='auth-message success';
       await loadClaims();
+      updateNumberAvailability();
       fillClaimForm(launch_number);
     }
   });
