@@ -493,6 +493,22 @@
       out.className='auth-message error';
       return;
     }
+    let latitude = null, longitude = null;
+    try {
+      const geo = await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=it,fr,nl,ch,hu&q='+encodeURIComponent(city), {headers:{'Accept':'application/json'}});
+      if (geo.ok) {
+        const hits = await geo.json();
+        if (hits?.[0]) {
+          latitude = Number(hits[0].lat);
+          longitude = Number(hits[0].lon);
+        }
+      }
+    } catch (_) {}
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      out.textContent='Città non trovata sulla mappa. Inserisci città e provincia/Paese, ad esempio “Milano, Italia”.';
+      out.className='auth-message error';
+      return;
+    }
     const existing = claims.find(x => Number(x.launch_number) === launch_number);
     const payload = {
       owner_id: session.user.id,
