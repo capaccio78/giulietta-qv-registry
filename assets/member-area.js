@@ -124,7 +124,11 @@
   }
 
   $$('.auth-tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.mode)));
-  showResetPassword?.addEventListener('click', showResetPane);
+  showResetPassword?.addEventListener('click', (e) => {
+    e.preventDefault();
+    showResetPane();
+    resetPane?.scrollIntoView({behavior:'smooth',block:'center'});
+  });
   backToLogin?.addEventListener('click', () => setTab('login'));
   $$('.login-link, .header-btn').forEach(a => {
     a.addEventListener('click', () => {
