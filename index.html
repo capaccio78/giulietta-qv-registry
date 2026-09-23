@@ -234,10 +234,10 @@
 
     <article class="account-panel" id="vehicleMember" hidden>
       <h3>La tua Launch Edition</h3>
-      <p>Associa un numero già documentato. I dati inseriti restano in moderazione finché la proprietà non viene verificata.</p>
+      <p>Inserisci il numero della tua Launch Edition da 1 a 999. Se il numero è già presente nel registro potrai rivendicarlo allegando una prova.</p>
       <form class="account-form" id="vehicleForm">
         <label>Numero Launch Edition
-          <select required name="launch_number" id="claimNumber"><option value="">Caricamento…</option></select>
+          <input required min="1" max="999" step="1" type="number" inputmode="numeric" name="launch_number" id="claimNumber" placeholder="1–999">\n          <div id="numberAvailability" class="help">Inserisci un numero da 1 a 999.</div>
         </label>
         <label>Targa<input maxlength="20" type="text" name="plate" autocomplete="off" placeholder="Facoltativa"></label>
         <label>Visibilità targa
@@ -292,6 +292,6 @@
 </footer>
 <script src="assets/app-v3.js?v=20260923-userphotos"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/member-area.js?v=20260923-011"></script>
+<script src="assets/member-area.js?v=20260923-012"></script>
 </body>
 </html>
