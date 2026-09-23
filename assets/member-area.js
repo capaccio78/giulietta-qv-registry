@@ -506,7 +506,7 @@
       out.textContent=res.error.message;
       out.className='auth-message error';
     } else {
-      out.textContent='Dati salvati. La richiesta resta in moderazione finché non viene verificata.';
+      out.textContent = state.taken ? 'Richiesta salvata. Il numero esiste già: la rivendicazione resta in verifica.' : 'Numero salvato e approvato automaticamente.';
       out.className='auth-message success';
       await loadClaims();
       updateNumberAvailability();
