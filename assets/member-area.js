@@ -41,6 +41,25 @@
   const TURNSTILE_SITE_KEY = '';
   let captchaToken = null;
   let recoveryMode = false;
+  const passwordSubmit = changePasswordForm?.querySelector('button[type="submit"]');
+  const currentPasswordInput = changePasswordForm?.querySelector('[name="current_password"]');
+
+  function setRecoveryMode(active) {
+    recoveryMode = !!active;
+    if (currentPasswordLabel) {
+      currentPasswordLabel.hidden = recoveryMode;
+      currentPasswordLabel.style.display = recoveryMode ? 'none' : '';
+    }
+    if (currentPasswordInput) {
+      currentPasswordInput.required = !recoveryMode;
+      if (recoveryMode) currentPasswordInput.value = '';
+    }
+    if (passwordSubmit) passwordSubmit.textContent = recoveryMode ? 'Imposta nuova password' : 'Aggiorna password';
+    if (passwordMessage && recoveryMode) {
+      passwordMessage.textContent = 'Inserisci e conferma la nuova password.';
+      passwordMessage.className = 'auth-message success';
+    }
+  }
   const authStartedAt = Date.now();
   const openedFromRecoveryLink = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
 
@@ -363,8 +382,7 @@
       passwordMessage.className = 'auth-message ' + (error ? 'error' : 'success');
     }
     if (!error) {
-      recoveryMode = false;
-      if (currentPasswordLabel) currentPasswordLabel.hidden = false;
+      setRecoveryMode(false);
       changePasswordForm.reset();
     }
   });
@@ -386,7 +404,7 @@
   });
 
   logoutBtn?.addEventListener('click', async () => {
-    recoveryMode = false;
+    setRecoveryMode(false);
     await client.auth.signOut();
     location.hash = 'account';
   });
@@ -471,12 +489,7 @@
       await loadVehicleOptions();
       const {data:{session:current}} = await client.auth.getSession();
       if (openedFromRecoveryLink && current?.user) {
-        recoveryMode = true;
-        if (currentPasswordLabel) currentPasswordLabel.hidden = true;
-        if (passwordMessage) {
-          passwordMessage.textContent = 'Inserisci e conferma la nuova password.';
-          passwordMessage.className = 'auth-message success';
-        }
+        setRecoveryMode(true);
       }
       await onSession(current);
       if (openedFromRecoveryLink && current?.user) {
@@ -486,12 +499,7 @@
       renderCaptcha();
       client.auth.onAuthStateChange((event,next) => setTimeout(async () => {
         if (event === 'PASSWORD_RECOVERY') {
-          recoveryMode = true;
-          if (currentPasswordLabel) currentPasswordLabel.hidden = true;
-          if (passwordMessage) {
-            passwordMessage.textContent = 'Inserisci e conferma la nuova password.';
-            passwordMessage.className = 'auth-message success';
-          }
+          setRecoveryMode(true);
           location.hash = 'account';
         }
         await onSession(next);
