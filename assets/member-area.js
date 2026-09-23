@@ -61,7 +61,12 @@
     }
   }
   const authStartedAt = Date.now();
-  const openedFromRecoveryLink = /(?:^|[&#])type=recovery(?:&|$)/.test(location.hash);
+  const recoveryUrlSeen = () => {
+    const raw = location.href;
+    return /(?:[?#&])type=recovery(?:&|$)/.test(raw) || /(?:[?#&])code=/.test(raw) && sessionStorage.getItem('qv-password-recovery') === '1';
+  };
+  const openedFromRecoveryLink = /(?:[?#&])type=recovery(?:&|$)/.test(location.href);
+  if (openedFromRecoveryLink) sessionStorage.setItem('qv-password-recovery','1');
 
   function message(text, type='') {
     if (!authMessage) return;
@@ -382,6 +387,7 @@
       passwordMessage.className = 'auth-message ' + (error ? 'error' : 'success');
     }
     if (!error) {
+      sessionStorage.removeItem('qv-password-recovery');
       setRecoveryMode(false);
       changePasswordForm.reset();
     }
@@ -404,6 +410,7 @@
   });
 
   logoutBtn?.addEventListener('click', async () => {
+    sessionStorage.removeItem('qv-password-recovery');
     setRecoveryMode(false);
     await client.auth.signOut();
     location.hash = 'account';
@@ -488,17 +495,18 @@
     try {
       await loadVehicleOptions();
       const {data:{session:current}} = await client.auth.getSession();
-      if (openedFromRecoveryLink && current?.user) {
+      if ((openedFromRecoveryLink || sessionStorage.getItem('qv-password-recovery') === '1') && current?.user) {
         setRecoveryMode(true);
       }
       await onSession(current);
-      if (openedFromRecoveryLink && current?.user) {
+      if ((openedFromRecoveryLink || sessionStorage.getItem('qv-password-recovery') === '1') && current?.user) {
         location.hash = 'account';
         setTimeout(() => $('#passwordBox')?.scrollIntoView({behavior:'smooth',block:'center'}),100);
       }
       renderCaptcha();
       client.auth.onAuthStateChange((event,next) => setTimeout(async () => {
         if (event === 'PASSWORD_RECOVERY') {
+          sessionStorage.setItem('qv-password-recovery','1');
           setRecoveryMode(true);
           location.hash = 'account';
         }
