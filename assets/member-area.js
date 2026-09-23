@@ -322,7 +322,7 @@
   function fillClaimForm(number) {
     if (!vehicleForm) return;
     const c = claims.find(x => Number(x.launch_number) === Number(number));
-    vehicleForm.plate.value = c?.plate || '';
+    vehicleForm.color.value = c?.color || '';\n    vehicleForm.city.value = c?.city || '';\n    vehicleForm.plate.value = c?.plate || '';
     vehicleForm.plate_visibility.value = c?.plate_visibility || 'private';
     vehicleForm.estimated_value_eur.value = c?.estimated_value_eur ?? '';
     vehicleForm.value_as_of.value = c?.value_as_of || '';
@@ -483,6 +483,13 @@
     }
     if (state.taken && !state.own && !String(fd.get('evidence_url')||'').trim()) {
       out.textContent='Questo numero è già presente nel registro. Per rivendicarlo inserisci una fonte/prova della proprietà.';
+      out.className='auth-message error';
+      return;
+    }
+    const color = String(fd.get('color')||'').trim();
+    const city = String(fd.get('city')||'').trim();
+    if (!['Rosso Alfa','Rosso Competizione','Grigio Magnesio Opaco'].includes(color) || city.length < 2) {
+      out.textContent='Colore ufficiale e città sono obbligatori.';
       out.className='auth-message error';
       return;
     }
