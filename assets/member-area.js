@@ -380,10 +380,6 @@
   resetPasswordForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fd = new FormData(resetPasswordForm);
-    if (botTrapTriggered(fd)) {
-      message('Richiesta bloccata dalla protezione anti-bot. Riprova tra qualche secondo.','error');
-      return;
-    }
     const email = String(fd.get('email')||'').trim();
     message('Invio del link di recupero…');
     const {error} = await client.auth.resetPasswordForEmail(email, {
