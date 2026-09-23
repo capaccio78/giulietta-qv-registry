@@ -239,6 +239,18 @@
         <label>Numero Launch Edition
           <input required min="1" max="999" step="1" type="number" inputmode="numeric" name="launch_number" id="claimNumber" placeholder="1–999">\n          <div id="numberAvailability" class="help">Inserisci un numero da 1 a 999.</div>
         </label>
+        <label>Colore ufficiale
+          <select required name="color">
+            <option value="">Seleziona il colore</option>
+            <option value="Rosso Alfa">Rosso Alfa</option>
+            <option value="Rosso Competizione">Rosso Competizione</option>
+            <option value="Grigio Magnesio Opaco">Grigio Magnesio Opaco</option>
+          </select>
+        </label>
+        <label>Città
+          <input required maxlength="120" type="text" name="city" autocomplete="address-level2" placeholder="Es. Milano">
+        </label>
+        <div class="help">La città verrà usata per posizionare la vettura sulla mappa pubblica in modo indicativo, senza mostrare indirizzi esatti.</div>
         <label>Targa<input maxlength="20" type="text" name="plate" autocomplete="off" placeholder="Facoltativa"></label>
         <label>Visibilità targa
           <select name="plate_visibility"><option value="private">Privata</option><option value="members">Solo utenti registrati</option><option value="public">Pubblica</option></select>
@@ -292,6 +304,6 @@
 </footer>
 <script src="assets/app-v3.js?v=20260923-live-registry-2"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/member-area.js?v=20260923-013"></script>
+<script src="assets/member-area.js?v=20260923-014"></script>
 </body>
 </html>
