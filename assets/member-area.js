@@ -296,7 +296,7 @@
   async function loadClaims() {
     if (!session?.user) { claims=[]; renderClaims(); return; }
     const {data,error} = await client.from('owner_vehicle_claims')
-      .select('id,launch_number,plate,plate_visibility,estimated_value_eur,value_as_of,value_visibility,contact_address,contact_visibility,evidence_url,status,admin_note,updated_at')
+      .select('id,launch_number,color,city,latitude,longitude,plate,plate_visibility,estimated_value_eur,value_as_of,value_visibility,contact_address,contact_visibility,evidence_url,status,admin_note,updated_at')
       .eq('owner_id',session.user.id)
       .order('launch_number');
     if (error) throw error;
@@ -322,7 +322,10 @@
   function fillClaimForm(number) {
     if (!vehicleForm) return;
     const c = claims.find(x => Number(x.launch_number) === Number(number));
-    const registered = vehicleOptions.find(v => Number(v.launch_number) === Number(number));\n    vehicleForm.color.value = c?.color || registered?.color || '';\n    vehicleForm.city.value = c?.city || registered?.city || '';\n    vehicleForm.plate.value = c?.plate || '';
+    const registered = vehicleOptions.find(v => Number(v.launch_number) === Number(number));
+    vehicleForm.color.value = c?.color || registered?.color || '';
+    vehicleForm.city.value = c?.city || registered?.city || '';
+    vehicleForm.plate.value = c?.plate || '';
     vehicleForm.plate_visibility.value = c?.plate_visibility || 'private';
     vehicleForm.estimated_value_eur.value = c?.estimated_value_eur ?? '';
     vehicleForm.value_as_of.value = c?.value_as_of || '';
@@ -513,6 +516,10 @@
     const payload = {
       owner_id: session.user.id,
       launch_number,
+      color,
+      city,
+      latitude,
+      longitude,
       plate: String(fd.get('plate')||'').trim().toUpperCase() || null,
       plate_visibility: String(fd.get('plate_visibility')||'private'),
       estimated_value_eur: fd.get('estimated_value_eur') ? Number(fd.get('estimated_value_eur')) : null,
