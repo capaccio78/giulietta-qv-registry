@@ -159,7 +159,7 @@
 
   async function loadVehicleOptions() {
     const { data, error } = await client.from('registry_vehicles')
-      .select('launch_number,color,country,city')
+      .select('launch_number,color,country,city,latitude,longitude')
       .eq('identified', true)
       .order('launch_number');
     if (error) throw error;
@@ -489,15 +489,16 @@
       out.className='auth-message error';
       return;
     }
-    const color = String(fd.get('color')||'').trim();
-    const city = String(fd.get('city')||'').trim();
+    const registeredVehicle = state.vehicle;
+    const color = String(fd.get('color') || registeredVehicle?.color || '').trim();
+    const city = String(fd.get('city') || registeredVehicle?.city || '').trim();
     if (!['Rosso Alfa','Rosso Competizione','Grigio Magnesio Opaco'].includes(color) || city.length < 2) {
       out.textContent='Colore ufficiale e città sono obbligatori.';
       out.className='auth-message error';
       return;
     }
-    let latitude = null, longitude = null;
-    try {
+    let latitude = Number(registeredVehicle?.latitude), longitude = Number(registeredVehicle?.longitude);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) try {
       const geo = await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=it,fr,nl,ch,hu&q='+encodeURIComponent(city), {headers:{'Accept':'application/json'}});
       if (geo.ok) {
         const hits = await geo.json();
