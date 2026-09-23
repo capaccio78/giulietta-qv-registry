@@ -322,7 +322,7 @@
   function fillClaimForm(number) {
     if (!vehicleForm) return;
     const c = claims.find(x => Number(x.launch_number) === Number(number));
-    vehicleForm.color.value = c?.color || '';\n    vehicleForm.city.value = c?.city || '';\n    vehicleForm.plate.value = c?.plate || '';
+    const registered = vehicleOptions.find(v => Number(v.launch_number) === Number(number));\n    vehicleForm.color.value = c?.color || registered?.color || '';\n    vehicleForm.city.value = c?.city || registered?.city || '';\n    vehicleForm.plate.value = c?.plate || '';
     vehicleForm.plate_visibility.value = c?.plate_visibility || 'private';
     vehicleForm.estimated_value_eur.value = c?.estimated_value_eur ?? '';
     vehicleForm.value_as_of.value = c?.value_as_of || '';
